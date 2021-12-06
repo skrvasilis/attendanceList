@@ -1,6 +1,6 @@
 ## A simple attendance
 To check who is here today and who is not.
-Useing locale torage to save the data and refresh the list everyday
+Using locale torage to save the data and refresh the list everyday
 
 ## Available Scripts
 
