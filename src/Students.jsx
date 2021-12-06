@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import useLocalStorage from "react-use-localstorage";
 import { UserContext } from "./context/userContext";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import swal from "sweetalert";
 // import TextField from "@mui/material/TextField"
 import {
   Button,
@@ -10,13 +11,12 @@ import {
   List,
   ListItem,
   IconButton,
-  ListItemText,
   Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import NotInterestedIcon from "@mui/icons-material/NotInterested";
-import { Box, display } from "@mui/system";
+import { Box } from "@mui/system";
 
 function Students() {
   const { item, setItem } = useContext(UserContext);
@@ -28,12 +28,7 @@ function Students() {
     setArray(JSON.parse(item));
   }, [item]);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data) => {
     const arr = JSON.parse(item);
     arr.push({ name: data.name, condition: "" });
@@ -43,9 +38,25 @@ function Students() {
   };
 
   const deleteAll = () => {
-    let arr = JSON.parse(item);
-    arr = [];
-    setItem(JSON.stringify(arr));
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        let arr = JSON.parse(item);
+        arr = [];
+        setItem(JSON.stringify(arr));
+
+        swal("Poof! Your List has been deleted!", {
+          icon: "success",
+        });
+      } else {
+        swal("Your List safe!");
+      }
+    });
   };
 
   const deleteOne = (name) => {
@@ -62,15 +73,11 @@ function Students() {
       return a.name > b.name ? 1 : -1;
     });
 
-    console.log(sorted);
     setSorted(sortedArr);
   }, [array]);
 
   const attend = (name) => {
-    console.log(name);
-
     let people = JSON.parse(item);
-    console.log(people);
     let myPerson = people.map((item) => {
       if (item.name === name) {
         item.condition = "ishere";
@@ -79,7 +86,6 @@ function Students() {
         return item;
       }
     });
-    console.log(myPerson);
     setItem(JSON.stringify(myPerson));
   };
 
@@ -94,12 +100,10 @@ function Students() {
         return item;
       }
     });
-    console.log(myPerson);
     setItem(JSON.stringify(myPerson));
   };
 
   const isLate = (name) => {
-    console.log(name);
     let people = JSON.parse(item);
 
     let myPerson = people.map((item) => {
@@ -110,7 +114,6 @@ function Students() {
         return item;
       }
     });
-    console.log(myPerson);
     setItem(JSON.stringify(myPerson));
   };
 
@@ -130,7 +133,6 @@ function Students() {
       item.condition = "ishere";
       return item;
     });
-    console.log(myPerson);
     setItem(JSON.stringify(myPerson));
   };
   const resetList = () => {
@@ -140,7 +142,6 @@ function Students() {
       item.condition = null;
       return item;
     });
-    console.log(myPerson);
     setItem(JSON.stringify(myPerson));
   };
 
@@ -177,7 +178,7 @@ function Students() {
         <Button
           variant="outlined"
           onClick={allHere}
-          style={{ margin: "10px 0 0px 0", width: "70%" }}
+          style={{ marginTop: "10px", width: "70%" }}
         >
           All students are here today
         </Button>
@@ -202,7 +203,7 @@ function Students() {
             margin="normal"
             sx={{ width: "100%" }}
           />
-          <Box sx={{ borderBottom: 1, borderColor: "grey.400", pb: 3 }}>
+          <Box sx={{ pb: 4 }}>
             <Button variant="outlined" type="submit" sx={{ width: "100%" }}>
               Add
             </Button>
@@ -213,9 +214,10 @@ function Students() {
         </Button>
       </Box>
       <List sx={{ width: "50%", m: 4 }}>
-        {sorted.map((item) => {
+        {sorted.map((item, index) => {
           return (
             <ListItem
+              key={index}
               sx={{
                 borderBottom: 1,
                 p: 1,

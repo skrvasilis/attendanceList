@@ -1,5 +1,4 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navigation from "./Navigation";
 import Students from "./Students";
 import "./App.scss";
