@@ -1,16 +1,15 @@
 import React from "react";
 import Navigation from "./Navigation";
 import Students from "./Students";
-import "./App.scss";
+import "./style/App.scss";
 import Footer from "./Footer";
 
 function App() {
   return (
     <div>
       <Navigation />
-
       <Students />
-      <Footer/>
+      <Footer />
     </div>
   );
 }

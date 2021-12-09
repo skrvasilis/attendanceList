@@ -16,14 +16,23 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import NotInterestedIcon from "@mui/icons-material/NotInterested";
-import { Box } from "@mui/system";
+import { Box, height } from "@mui/system";
+import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import SideBar from "./Sidebar";
 
 function Students() {
-  const { item, setItem } = useContext(UserContext);
-  const [count, setCount] = useLocalStorage("count", 0);
-  const [peopleAttend, setPeopleAttend] = useState(0);
-  const [array, setArray] = useState([]);
-  const [sorted, setSorted] = useState([]);
+  const {
+    item,
+    setItem,
+    count,
+    setCount,
+    peopleAttend,
+    setPeopleAttend,
+    array,
+    setArray,
+    sorted,
+    setSorted,
+  } = useContext(UserContext);
   useEffect(() => {
     setArray(JSON.parse(item));
   }, [item]);
@@ -31,9 +40,12 @@ function Students() {
   const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data) => {
     const arr = JSON.parse(item);
-    arr.push({ name: data.name, condition: "" });
+    if (data.name !== "") {
+      arr.push({ name: data.name, condition: "" });
 
-    setItem(JSON.stringify(arr));
+      setItem(JSON.stringify(arr));
+    }
+
     reset();
   };
 
@@ -69,11 +81,27 @@ function Students() {
     setCount(array.length);
 
     //////////////////from Dashboard //////////
-    const sortedArr = [...array].sort((a, b) => {
+    const yesArr = [];
+    const other = [];
+    for (let i of array) {
+      if (i.condition === "ishere") {
+        yesArr.push(i);
+      } else {
+        other.push(i);
+      }
+    }
+
+    const sortedYes = yesArr.sort((a, b) => {
       return a.name > b.name ? 1 : -1;
     });
 
-    setSorted(sortedArr);
+    const sortedOther = other.sort((a, b) => {
+      return a.name > b.name ? 1 : -1;
+    });
+
+    const concatArr = sortedYes.concat([...sortedOther]);
+
+    setSorted(concatArr);
   }, [array]);
 
   const attend = (name) => {
@@ -155,65 +183,39 @@ function Students() {
     }
   };
 
-  ///////////////////////////////////////////
-
+  ////////////////////////////////////////////////////////////////////
   return (
-    <Box sx={{ display: "flex" }}>
-      <Box
-        sx={{
-          width: "30%",
-          mt: 1,
-          pt: 4,
-          pl: 4,
-          pr: 12,
-          borderRight: 1,
-          borderBlockColor: "gray.400",
-          height: "98vh",
-        }}
-      >
-        <h2>Number of people: {count}</h2>
+    <main style={{ display: "flex" }}>
+      <div className="leftCotainer">
+         <h3>Number of people: {count}</h3>
+        <h3>Number of people attended: {peopleAttend}</h3>
 
-        <h2>Number of people attended: {peopleAttend}</h2>
-
-        <Button
-          variant="outlined"
-          onClick={allHere}
-          style={{ marginTop: "10px", width: "70%" }}
-        >
+        <button className="btn" onClick={allHere}>
           All students are here today
-        </Button>
-        <Button
-          variant="outlined"
-          onClick={resetList}
-          sx={{ margin: "10px 0 100px 0", width: "70%" }}
-        >
+        </button>
+        <button className="btn" onClick={resetList}>
           Reset the list
-        </Button>
+        </button>
 
-        <Typography variant="h4">Add a new person</Typography>
+        <h3>Add a new person</h3>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <TextField
-            id="outlined-basic"
+          <input
             label="Name"
-            variant="outlined"
             type="text"
             placeholder="Name"
             {...register("name", {})}
             margin="normal"
-            sx={{ width: "100%" }}
           />
-          <Box sx={{ pb: 4 }}>
-            <Button variant="outlined" type="submit" sx={{ width: "100%" }}>
-              Add
-            </Button>
-          </Box>
+
+          <button type="submit">Add</button>
         </form>
-        <Button sx={{ width: "100%" }} variant="outlined" onClick={deleteAll}>
+        <button className="btn" onClick={deleteAll}>
           Delete All Student's
-        </Button>
-      </Box>
-      <List sx={{ width: "50%", m: 4 }}>
+        </button> 
+      </div>
+
+      <List className="listContainer" sx={{ m: 4 }}>
         {sorted.map((item, index) => {
           return (
             <ListItem
@@ -232,16 +234,33 @@ function Students() {
 
               <Box>
                 {" "}
-                <IconButton edge="end" onClick={() => notAttend(item.name)}>
+                <IconButton
+                  className="icon"
+                  edge="end"
+                  onClick={() => notAttend(item.name)}
+                >
                   <NotInterestedIcon />
                 </IconButton>
-                <IconButton edge="end" onClick={() => attend(item.name)}>
+                <IconButton
+                  edge="end"
+                  className="icon"
+                  onClick={() => attend(item.name)}
+                >
                   <CheckCircleIcon />
                 </IconButton>
-                <IconButton edge="end" onClick={() => isLate(item.name)}>
+                <IconButton
+                  edge="end"
+                  className="icon"
+                  onClick={() => isLate(item.name)}
+                >
                   <AccessTimeIcon />
                 </IconButton>
-                <IconButton edge="end" onClick={() => deleteOne(item.name)}>
+                <IconButton
+                  edge="end"
+                  size="small"
+                  className="icon"
+                  onClick={() => deleteOne(item.name)}
+                >
                   <DeleteIcon />
                 </IconButton>
               </Box>
@@ -249,7 +268,8 @@ function Students() {
           );
         })}
       </List>
-    </Box>
+      <SideBar allHere={allHere} resetList={resetList} deleteAll={deleteAll} />
+    </main>
   );
 }
 

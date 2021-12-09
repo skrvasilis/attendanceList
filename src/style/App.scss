@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@200&display=swap');
+
+* {
+  margin    : 0;
+  padding   : 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'M PLUS 1', sans-serif;
+}
+
+
+p {
+  font-size: 20px;
+}
+
+.ishere {
+  color: rgb(0, 163, 0);
+
+}
+
+.isnothere {
+  color: rgb(195, 0, 0);
+
+}
+
+.islate {
+  color: #ffa500
+}
+
+main {
+  min-height: 80vh;
+}
+
+.leftCotainer,
+.slideBar {
+
+  border-right  : 2px solid gray;
+  min-height    : 87vh;
+  display       : flex;
+  flex-direction: column;
+  align-items   : center;
+  padding       : 3% 1%;
+
+  form {
+    width         : 100%;
+    display       : flex;
+    flex-direction: column;
+    align-items   : center;
+
+    input {
+      width        : 80%;
+      padding      : 4% 2%;
+      border-radius: 5%;
+      outline      : none;
+      font-size    : 1.1em;
+      border-color: royalblue;
+      margin-top: 3%;
+
+    }
+
+    button {
+      padding      : 5%;
+      margin       : 1%;
+      width        : 80%;
+      background   : none;
+      outline      : none;
+      border       : 2px solid rgb(138, 138, 223);
+      font-size    : 1.1em;
+      color        : royalblue;
+      border-radius: 5%;
+
+    }
+  }
+
+
+
+  .btn {
+    padding      : 5%;
+    margin       : 4%;
+    width        : 80%;
+    background   : none;
+    outline      : none;
+    border       : 2px solid rgb(138, 138, 223);
+    font-size    : 1.1em;
+    color        : royalblue;
+    border-radius: 5%;
+
+  }
+
+}
+
+
+
+.icon {
+  font-size: 5px;
+}
+
+.listContainer {
+  width: 50%;
+}
+
+.slideButton {
+  display: none;
+}
+
+
+@media only screen and (max-width: 600px) {
+  .leftCotainer {
+    display: none;
+  }
+
+  .listContainer {
+    width: 90%;
+  }
+
+  .slideButton {
+    display   : block;
+    position  : absolute;
+    top       : 13%;
+    right     : 5%;
+    padding   : 1%;
+    border    : none;
+    background: none;
+    color     : gray;
+    font-size : 1.2em;
+  }
+
+  .icon {
+    padding: 5px;
+  }
+}
