@@ -187,11 +187,11 @@ function Students() {
   return (
     <main style={{ display: "flex" }}>
       <div className="leftCotainer">
-         <h3>Number of people: {count}</h3>
+        <h3>Number of people: {count}</h3>
         <h3>Number of people attended: {peopleAttend}</h3>
 
         <button className="btn" onClick={allHere}>
-          All students are here today
+          All are here today
         </button>
         <button className="btn" onClick={resetList}>
           Reset the list
@@ -211,8 +211,8 @@ function Students() {
           <button type="submit">Add</button>
         </form>
         <button className="btn" onClick={deleteAll}>
-          Delete All Student's
-        </button> 
+          Delete Everyone
+        </button>
       </div>
 
       <List className="listContainer" sx={{ m: 4 }}>
@@ -234,31 +234,36 @@ function Students() {
 
               <Box>
                 {" "}
+               
+                <IconButton
+                  edge="end"
+                  className="icon"
+                  title="person is attending"
+
+                  onClick={() => attend(item.name)}
+                >
+                  <CheckCircleIcon />
+                </IconButton>
                 <IconButton
                   className="icon"
                   edge="end"
+                  title="person is not attending"
+
                   onClick={() => notAttend(item.name)}
                 >
                   <NotInterestedIcon />
                 </IconButton>
                 <IconButton
                   edge="end"
-                  className="icon"
-                  onClick={() => attend(item.name)}
-                >
-                  <CheckCircleIcon />
-                </IconButton>
-                <IconButton
-                  edge="end"
-                  className="icon"
+                  title="person is late"
                   onClick={() => isLate(item.name)}
                 >
                   <AccessTimeIcon />
                 </IconButton>
                 <IconButton
+                  title="delete person"
                   edge="end"
                   size="small"
-                  className="icon"
                   onClick={() => deleteOne(item.name)}
                 >
                   <DeleteIcon />

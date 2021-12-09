@@ -27,12 +27,12 @@ export default function SideBar({ allHere, resetList, deleteAll }) {
 
   const list = (anchor) => (
     <Box>
-     <div className="slideBar">
+      <div className="slideBar">
         <h3>Number of people: {count}</h3>
         <h3>Number of people attended: {peopleAttend}</h3>
 
         <button className="btn" onClick={allHere}>
-          All students are here today
+          All are here today
         </button>
         <button className="btn" onClick={resetList}>
           Reset the list
@@ -52,7 +52,7 @@ export default function SideBar({ allHere, resetList, deleteAll }) {
           <button type="submit">Add</button>
         </form>
         <button className="btn" onClick={deleteAll}>
-          Delete All Student's
+          Delete Everyone{" "}
         </button>
       </div>
     </Box>
