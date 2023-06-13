@@ -1,3 +1,5 @@
+# https://attendance2.vercel.app/
+
 ## A simple attendance
 To check who is here today and who is not.
 Using locale torage to save the data and refresh the list everyday
